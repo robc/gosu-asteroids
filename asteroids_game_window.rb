@@ -37,8 +37,7 @@ class AsteroidsGameWindow < Gosu::Window
   end
 
   def update
-    update_title_screen if @game_over_flag
-    update_ingame if !@game_over_flag
+    @game_over_flag ? update_title_screen : update_ingame
   end
 
   def draw
