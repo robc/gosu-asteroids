@@ -82,8 +82,10 @@ class AsteroidManager
           asteroid.location_y.to_i)
 
       collision = (distance <= radius)
-      remove_asteroid(asteroid) if collision and remove_asteroid_on_collision
-      break
+      if collision and remove_asteroid_on_collision
+        remove_asteroid(asteroid)
+        break
+      end
     end
 
     collision
@@ -115,13 +117,10 @@ class AsteroidManager
     x_delta = x2 - x1
     y_delta = y2 - y1
     
-    puts "x: #{x_delta}, y: #{y_delta}"
-    
     x_delta_squared = x_delta.power!(2)
     y_delta_squared = y_delta.power!(2)
     
     summed_deltas = x_delta_squared + y_delta_squared
-    puts "summed: #{summed_deltas}"
     Math.sqrt(summed_deltas) 
   end
   
