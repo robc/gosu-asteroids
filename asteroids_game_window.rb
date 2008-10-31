@@ -96,14 +96,17 @@ class AsteroidsGameWindow < Gosu::Window
     elsif button_down? Gosu::Button::KbRight or button_down? Gosu::Button::GpRight then
       @player.turn_right
     end
+
     if button_down? Gosu::Button::KbUp or button_down? Gosu::Button::GpButton0 then
       @player.fire_thrust
     else
       @player.slow_down
     end
+
     if button_down? Gosu::Button::KbLeftShift or button_down? Gosu::Button::GpButton1 then
       @player.hyperspace
     end
+    
     if (button_down? Gosu::Button::KbSpace or button_down? Gosu::Button::GpButton2) and !@bullet_fired and !@player.in_hyperspace then
       @bullet_manager.fire_bullet(@player.location_x, @player.location_y, @player.velocity_x, @player.velocity_y, @player.angle)
       @bullet_fired = true
