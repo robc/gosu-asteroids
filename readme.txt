@@ -16,8 +16,7 @@ Controls:
 
 == Improvements ==
 
-a) Collisions, Collisions, Collisions (yes, they currently do suck!)
-b) Positioning of text labels
-c) Adding high-scores
-d) Sound effects
-e) Introduce more graphical effects
+a) Positioning of text labels
+b) Adding high-scores
+c) Sound effects
+d) Introduce more graphical effects
