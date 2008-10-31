@@ -27,7 +27,6 @@ class AsteroidManager
   end
   
   def start_new_wave
-    puts "Starting New Wave of asteroids"
     @start_new_wave = true
     @new_wave_countdown = NewWaveDelay
   end
