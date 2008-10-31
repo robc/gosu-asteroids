@@ -75,13 +75,14 @@ class AsteroidManager
     collision = false
     
     @active_asteroids.each do |asteroid|
-      distance_x = (asteroid.location_x - object_location_x).abs
-      distance_y = (asteroid.location_y - object_location_y).abs
-      
-      collision = (distance_x <= radius) and (distance_y <= radius)
-      remove_asteroid(asteroid) if collision and remove_asteroid_on_collision
+      distance = distance_between_two_points(
+          object_location_x.to_i,
+          object_location_y.to_i,
+          asteroid.location_x.to_i,
+          asteroid.location_y.to_i)
 
-      #puts "dx:#{distance_x} / dy:#{distance_y} / c:#{collision}" if collision
+      collision = (distance <= radius)
+      remove_asteroid(asteroid) if collision and remove_asteroid_on_collision
       break
     end
 
@@ -107,6 +108,21 @@ class AsteroidManager
     @active_asteroids.each do |asteroid|
       asteroid.draw
     end
+  end
+  
+  private
+  def distance_between_two_points(x1, y1, x2, y2)
+    x_delta = x2 - x1
+    y_delta = y2 - y1
+    
+    puts "x: #{x_delta}, y: #{y_delta}"
+    
+    x_delta_squared = x_delta.power!(2)
+    y_delta_squared = y_delta.power!(2)
+    
+    summed_deltas = x_delta_squared + y_delta_squared
+    puts "summed: #{summed_deltas}"
+    Math.sqrt(summed_deltas) 
   end
   
 end
