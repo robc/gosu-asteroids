@@ -1,17 +1,22 @@
 module GameConstants
-  ScreenWidth  = 800
-  ScreenHeight = 600
+  ScreenWidth  = 1024
+  ScreenHeight = 768
   BoundsBufferSize = 50
+
+  PlayerBoundingSphereRadius = 17
+  AsteroidBoundingSphereRadius = 28
+  BulletBoundingSphereRadius = 6
+
+  PlayerAsteroidCollisionRadius = (PlayerBoundingSphereRadius + AsteroidBoundingSphereRadius)
+  BulletAsteroidCollisionRadius = (AsteroidBoundingSphereRadius + BulletBoundingSphereRadius)
 
   PlayerLives = 3
   MaxForwardVelocity = 40
   DeaccelerationRate = 0.97
   HyperspaceTime = 120
-  PlayerAsteroidCollisionRadius = 30
 
   BulletLifeCycle = 150
   BulletVelocity = 150
-  BulletAsteroidCollisionRadius = 15
   NumberOfBullets = 3
 
   PlayerRespawnTime = 60
