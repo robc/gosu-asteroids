@@ -81,8 +81,8 @@ class AsteroidManager
           asteroid.location_y.to_i)
 
       collision = (distance <= radius)
-      if collision and remove_asteroid_on_collision
-        remove_asteroid(asteroid)
+      if collision
+        remove_asteroid(asteroid) if remove_asteroid_on_collision
         break
       end
     end
