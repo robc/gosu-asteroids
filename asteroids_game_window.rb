@@ -17,7 +17,7 @@ class AsteroidsGameWindow < Gosu::Window
     super(ScreenWidth, ScreenHeight, false)
     self.caption = "Asteroids Game"
     
-    @background_image = Gosu::Image.new(self, "media/backdrop.png", true)
+    @background_image = Gosu::Image.new(self, "media/IngameBackground.png", true)
     @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
     
     @player_image = Gosu::Image.new(self, "media/Spaceship.png", true)
