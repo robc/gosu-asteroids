@@ -89,7 +89,7 @@ class AsteroidManager
     @active_asteroids.each do |asteroid|
       radius = object_to_test.bounding_sphere_radius + asteroid.bounding_sphere_radius
       
-      distance = distance_between_two_points(
+      distance = Gosu::distance(
           object_to_test.location_x.to_i,
           object_to_test.location_y.to_i,
           asteroid.location_x.to_i,
@@ -127,19 +127,6 @@ class AsteroidManager
   end
   
   private
-  # TODO: Extract me out into a library!
-  # (NB: Gosu apparently has it's own implementation - maybe wanna compare it?)
-  def distance_between_two_points(x1, y1, x2, y2)
-    x_delta = x2 - x1
-    y_delta = y2 - y1
-    
-    x_delta_squared = x_delta.power!(2)
-    y_delta_squared = y_delta.power!(2)
-    
-    summed_deltas = x_delta_squared + y_delta_squared
-    Math.sqrt(summed_deltas) 
-  end
-  
   def get_random_boolean
     (rand(2) == 1 ? true : false) 
   end
