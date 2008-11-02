@@ -16,7 +16,7 @@ class AsteroidManager
     
     @start_new_wave = false
     @new_wave_countdown = 0
-    @wave_number = 1
+    @wave_number = 0
   end
   
   def has_active_asteroids?
