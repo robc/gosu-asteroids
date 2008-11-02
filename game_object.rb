@@ -5,9 +5,9 @@ require 'bounds'
 class GameObject
   include GameConstants, Conversions, Bounds
   
-  attr_reader   :location_x, :location_y
+  attr_accessor   :location_x, :location_y
   attr_reader   :velocity_x, :location_y
-  attr_reader   :angle
+  attr_accessor   :angle
   
   def initialize(image)
     @object_image = image

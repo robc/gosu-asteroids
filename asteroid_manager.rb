@@ -6,16 +6,17 @@ require 'bounds'
 class AsteroidManager
   include GameConstants, Conversions, Bounds
   
-  def initialize(num_of_asteroids, asteroid_image)
-    @number_of_asteroids = num_of_asteroids
-    
+  attr_reader :wave_number
+  
+  def initialize(pool_size, asteroid_image)
     @active_asteroids = Array.new()
-    @asteroid_pool = Array.new(num_of_asteroids) do |asteroid|
+    @asteroid_pool = Array.new(pool_size) do |asteroid|
       asteroid = Asteroid.new(asteroid_image)
     end
     
     @start_new_wave = false
     @new_wave_countdown = 0
+    @wave_number = 1
   end
   
   def has_active_asteroids?
@@ -29,30 +30,27 @@ class AsteroidManager
   def start_new_wave
     @start_new_wave = true
     @new_wave_countdown = NewWaveDelay
+    @wave_number += 1
   end
   
   def initialise_wave
-    @number_of_asteroids.times do |counter|
-      asteroid = @asteroid_pool.pop
+    number_of_asteroids = (2 * (@wave_number - 1)) + MinAsteroidsToSpawn
     
-      # sets up the location for the asteroid to spawn (ideally, we want them to spawn on the borders)
-      location_x, location_y  = 0
-      spawn_horizontal = rand(1)
+    number_of_asteroids.times do |counter|
+      asteroid = @asteroid_pool.pop
+
+      # Do we want to spawn on the side, or on the top?
+      spawn_horizontal = get_random_boolean
       if spawn_horizontal then
-        location_x = Conversions.transform_screen_to_world(rand(ScreenWidth), ScreenWidth, MinVisibleHorizontalBound)
-        y = rand(2 * BoundsBufferSize)
-        location_y = MinVisibleVerticalBound + y if y <= BoundsBufferSize
-        location_y = MaxVisibleVerticalBound - y if y > BoundsBufferSize 
+        asteroid.location_x = (get_random_boolean ? MinPlayfieldHorizontalBound : MaxPlayfieldHorizontalBound)
+        asteroid.location_y = Conversions.transform_screen_to_world(rand(ScreenHeight), ScreenHeight, MinVisibleVerticalBound)
       else
-        location_y = Conversions.transform_screen_to_world(rand(ScreenHeight), ScreenHeight, MinVisibleVerticalBound)
-        x = rand(2 * BoundsBufferSize)
-        location_x = MinVisibleHorizontalBound + x if x <= BoundsBufferSize
-        location_x = MaxVisibleHorizontalBound - x if x > BoundsBufferSize 
+        asteroid.location_y = (get_random_boolean ? MinPlayfieldVerticalBound : MaxPlayfieldVerticalBound)
+        asteroid.location_x = Conversions.transform_screen_to_world(rand(ScreenWidth), ScreenWidth, MinVisibleHorizontalBound)
       end
 
-      angle = rand(360)
-    
-      asteroid.prepare_asteroid(location_x, location_y, angle)
+      asteroid.angle = rand(360)
+      asteroid.set_forward_velocity(AsteroidForwardVelocity)
       @active_asteroids << asteroid
     end
   end
@@ -112,6 +110,8 @@ class AsteroidManager
   end
   
   private
+  # TODO: Extract me out into a library!
+  # (NB: Gosu apparently has it's own implementation - maybe wanna compare it?)
   def distance_between_two_points(x1, y1, x2, y2)
     x_delta = x2 - x1
     y_delta = y2 - y1
@@ -121,6 +121,10 @@ class AsteroidManager
     
     summed_deltas = x_delta_squared + y_delta_squared
     Math.sqrt(summed_deltas) 
+  end
+  
+  def get_random_boolean
+    (rand(2) == 1 ? true : false) 
   end
   
 end

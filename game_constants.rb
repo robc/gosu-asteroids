@@ -22,7 +22,8 @@ module GameConstants
   PlayerRespawnTime = 60
   NewWaveDelay = 90
   
-  NumOfAsteroids = 5
+  MinAsteroidsToSpawn = 4
+  MaxAsteroidsInPool = 50
   AsteroidForwardVelocity = 15
   AsteroidScore = 500
 end
