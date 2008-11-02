@@ -9,8 +9,8 @@ class Player < GameObject
   attr_reader   :respawn_time
   attr_reader   :velocity_x, :velocity_y
   
-  def initialize(player_image)
-    super(player_image)
+  def initialize(player_image, bounding_sphere_radius)
+    super(player_image, bounding_sphere_radius)
     
     prepare_player
   end

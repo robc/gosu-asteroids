@@ -5,12 +5,12 @@ require 'conversions'
 class Asteroid < GameObject
   include GameConstants
   
-  attr_accessor :asteroid_size
+  attr_accessor :asteroid_size, :object_image
   
-  def initialize(asteroid_image)
-    super(asteroid_image)
+  def initialize(asteroid_size, asteroid_image, bounding_sphere_radius)
+    super(asteroid_image, bounding_sphere_radius)
+    @asteroid_size = asteroid_size
     @angle_rotation = (rand(AsteroidRotationSpeed * 2) - AsteroidRotationSpeed)
-    @asteroid_size = :small
   end
   
   def set_forward_velocity(velocity)
@@ -18,6 +18,11 @@ class Asteroid < GameObject
     
     @velocity_x = Math.cos(angle_in_rad)
     @velocity_y = Math.sin(angle_in_rad)
+  end
+
+  def set_asteroid_size_and_image(asteroid_size, asteroid_image)
+    @asteroid_size = asteroid_size
+    @object_image = asteroid_image
   end
   
   def update

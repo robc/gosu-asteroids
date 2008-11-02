@@ -7,10 +7,11 @@ class GameObject
   
   attr_accessor   :location_x, :location_y
   attr_reader     :velocity_x, :location_y
-  attr_accessor   :angle
+  attr_accessor   :angle, :bounding_sphere_radius
   
-  def initialize(image)
+  def initialize(image, bounding_sphere_radius)
     @object_image = image
+    @bounding_sphere_radius = bounding_sphere_radius
     set_location_velocity_angle_defaults
   end
   
@@ -30,7 +31,6 @@ class GameObject
   end
   
   protected
-  # Sets the location, angle, and velocity amounts to 0 (which is their defaults)
   def set_location_velocity_angle_defaults
     @location_x = 0
     @location_y = 0

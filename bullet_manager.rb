@@ -5,10 +5,10 @@ require 'pp'
 class BulletManager
   include GameConstants
 
-  def initialize(number_of_bullets, bullet_image)
+  def initialize(number_of_bullets, bullet_image, bullet_bounding_sphere_radius)
     @active_bullets = Array.new()
     @bullet_pool = Array.new(number_of_bullets) do |counter|
-      Bullet.new(bullet_image)
+      Bullet.new(bullet_image, bullet_bounding_sphere_radius)
     end
   end
   

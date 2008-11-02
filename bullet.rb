@@ -7,8 +7,8 @@ class Bullet < GameObject
   
   attr_reader :bullet_life
   
-  def initialize(bullet_image)
-    super(bullet_image)
+  def initialize(bullet_image, bounding_sphere_radius)
+    super(bullet_image, bounding_sphere_radius)
 
     @bullet_life = bullet_life
   end

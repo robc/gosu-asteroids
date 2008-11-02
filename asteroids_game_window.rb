@@ -21,14 +21,21 @@ class AsteroidsGameWindow < Gosu::Window
     @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
     
     @player_image = Gosu::Image.new(self, "media/Spaceship.png", true)
-    @player = Player.new(@player_image)
+    @player = Player.new(@player_image, PlayerBoundingSphereRadius)
     
     @bullet_image = Gosu::Image.new(self, "media/Bullet.png", true)
-    @bullet_manager = BulletManager.new(NumberOfBullets, @bullet_image)
+    @bullet_manager = BulletManager.new(NumberOfBullets, @bullet_image, BulletBoundingSphereRadius)
     @bullet_fired = false
     
-    @asteroid_image = Gosu::Image.new(self, "media/AsteroidMedium.png", true)
-    @asteroid_manager = AsteroidManager.new(MaxAsteroidsInPool, @asteroid_image)
+    @large_asteroid_image = Gosu::Image.new(self, "media/AsteroidLarge.png", true)
+    @medium_asteroid_image = Gosu::Image.new(self, "media/AsteroidMedium.png", true)
+    @small_asteroid_image = Gosu::Image.new(self, "media/AsteroidSmall.png", true)
+    @asteroid_manager = AsteroidManager.new(
+            MaxAsteroidsInPool,
+            @large_asteroid_image,
+            @medium_asteroid_image,
+            @small_asteroid_image
+    )
   
     @score = 0
     @lives = 3
@@ -116,7 +123,7 @@ class AsteroidsGameWindow < Gosu::Window
   end
 
   def test_bullet_asteroid_collision(bullet)
-    collision = @asteroid_manager.test_for_collision(bullet.location_x, bullet.location_y, BulletAsteroidCollisionRadius, true)
+    collision = @asteroid_manager.test_for_collision(bullet, true)
     
     if collision then
       @bullet_manager.remove_bullet(bullet)
@@ -127,7 +134,7 @@ class AsteroidsGameWindow < Gosu::Window
   end
   
   def test_player_asteroid_collisions
-    collision = @asteroid_manager.test_for_collision(@player.location_x, @player.location_y, PlayerAsteroidCollisionRadius, false)
+    collision = @asteroid_manager.test_for_collision(@player, false)
     
     if collision then
       @player.kill_player

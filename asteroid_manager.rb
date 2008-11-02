@@ -8,12 +8,22 @@ class AsteroidManager
   
   attr_reader :wave_number
   
-  def initialize(pool_size, asteroid_image)
+  def initialize(pool_size, large_asteroid_image, medium_asteroid_image, small_asteroid_image)
+    @asteroid_images = Hash.new()
+    @asteroid_images[:large] = large_asteroid_image
+    @asteroid_images[:medium] = medium_asteroid_image
+    @asteroid_images[:small] = small_asteroid_image
+
+    @bounding_sphere_radius = Hash.new()
+    @bounding_sphere_radius[:large] = LargeAsteroidBoundingSphereRadius
+    @bounding_sphere_radius[:medium] = MediumAsteroidBoundingSphereRadius
+    @bounding_sphere_radius[:small] = SmallAsteroidBoundingSphereRadius
+
     @active_asteroids = Array.new()
     @asteroid_pool = Array.new(pool_size) do |asteroid|
-      asteroid = Asteroid.new(asteroid_image)
+      asteroid = Asteroid.new(:large, large_asteroid_image, @bounding_sphere_radius[:large])
     end
-    
+
     @start_new_wave = false
     @new_wave_countdown = 0
     @wave_number = 0
@@ -35,9 +45,16 @@ class AsteroidManager
   
   def initialise_wave
     number_of_asteroids = (2 * (@wave_number - 1)) + MinAsteroidsToSpawn
+    number_of_asteroids = 11 if number_of_asteroids > 11
     
     number_of_asteroids.times do |counter|
       asteroid = @asteroid_pool.pop
+
+      asteroid.asteroid_size = :large
+      asteroid.bounding_sphere_radius = @bounding_sphere_radius[:large]
+      asteroid.object_image = @asteroid_images[:large]
+      asteroid.angle = rand(360)
+      asteroid.set_forward_velocity(AsteroidForwardVelocity)
 
       # Do we want to spawn on the side, or on the top?
       spawn_horizontal = get_random_boolean
@@ -49,8 +66,6 @@ class AsteroidManager
         asteroid.location_x = Conversions.transform_screen_to_world(rand(ScreenWidth), ScreenWidth, MinVisibleHorizontalBound)
       end
 
-      asteroid.angle = rand(360)
-      asteroid.set_forward_velocity(AsteroidForwardVelocity)
       @active_asteroids << asteroid
     end
   end
@@ -68,13 +83,15 @@ class AsteroidManager
     @active_asteroids.delete(asteroid)
   end
   
-  def test_for_collision(object_location_x, object_location_y, radius, remove_asteroid_on_collision)
+  def test_for_collision(object_to_test, remove_asteroid_on_collision)
     collision = false
     
     @active_asteroids.each do |asteroid|
+      radius = object_to_test.bounding_sphere_radius + asteroid.bounding_sphere_radius
+      
       distance = distance_between_two_points(
-          object_location_x.to_i,
-          object_location_y.to_i,
+          object_to_test.location_x.to_i,
+          object_to_test.location_y.to_i,
           asteroid.location_x.to_i,
           asteroid.location_y.to_i)
 
