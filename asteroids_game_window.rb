@@ -27,7 +27,7 @@ class AsteroidsGameWindow < Gosu::Window
     @bullet_manager = BulletManager.new(NumberOfBullets, @bullet_image)
     @bullet_fired = false
     
-    @asteroid_image = Gosu::Image.new(self, "media/Asteroid.png", true)
+    @asteroid_image = Gosu::Image.new(self, "media/AsteroidMedium.png", true)
     @asteroid_manager = AsteroidManager.new(MaxAsteroidsInPool, @asteroid_image)
   
     @score = 0
