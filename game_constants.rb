@@ -24,6 +24,12 @@ module GameConstants
   
   MinAsteroidsToSpawn = 4
   MaxAsteroidsInPool = 50
-  AsteroidForwardVelocity = 15
+  AsteroidForwardVelocity = 30
   AsteroidScore = 500
+  
+  SmallAsteroidForwardVelocity = 40
+  MediumAsteroidForwardVelocity = 25
+  LargeAsteroidForwardVelocity = 10
+  
+  AsteroidRotationSpeed = 0.25
 end
