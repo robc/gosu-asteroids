@@ -2,6 +2,7 @@ module GameConstants
   ScreenWidth  = 1024
   ScreenHeight = 768
   BoundsBufferSize = 50
+  BulletFireDelay = 40
 
   LargeAsteroidBoundingSphereRadius = 56
   MediumAsteroidBoundingSphereRadius = 28
@@ -15,8 +16,8 @@ module GameConstants
   DeaccelerationRate = 0.97
   HyperspaceTime = 120
 
-  BulletLifeCycle = 150
-  BulletVelocity = 150
+  BulletLifeCycle = 240
+  BulletVelocity = 300
   NumberOfBullets = 3
 
   PlayerRespawnTime = 60

@@ -39,6 +39,7 @@ class AsteroidsGameWindow < Gosu::Window
   
     @score = 0
     @lives = 3
+    @next_bullet_delay = 0
     
     @game_over_flag = true
   end
@@ -114,12 +115,11 @@ class AsteroidsGameWindow < Gosu::Window
       @player.hyperspace
     end
     
-    if (button_down? Gosu::Button::KbSpace or button_down? Gosu::Button::GpButton2) and !@bullet_fired and !@player.in_hyperspace then
+    if (button_down? Gosu::Button::KbSpace or button_down? Gosu::Button::GpButton2) and @next_bullet_delay == 0 and !@player.in_hyperspace then
       @bullet_manager.fire_bullet(@player.location_x, @player.location_y, @player.velocity_x, @player.velocity_y, @player.angle)
-      @bullet_fired = true
-    else
-      @bullet_fired = false
+      @next_bullet_delay = BulletFireDelay
     end
+    @next_bullet_delay -= 1 if @next_bullet_delay > 0
   end
 
   def test_bullet_asteroid_collision(bullet)
