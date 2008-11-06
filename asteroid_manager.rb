@@ -19,6 +19,11 @@ class AsteroidManager
     @bounding_sphere_radius[:medium] = MediumAsteroidBoundingSphereRadius
     @bounding_sphere_radius[:small] = SmallAsteroidBoundingSphereRadius
 
+    @asteroid_velocities = Hash.new()
+    @asteroid_velocities[:large] = LargeAsteroidForwardVelocity
+    @asteroid_velocities[:medium] = MediumAsteroidForwardVelocity
+    @asteroid_velocities[:small] = SmallAsteroidForwardVelocity
+
     @active_asteroids = Array.new()
     @asteroid_pool = Array.new(pool_size) do |asteroid|
       asteroid = Asteroid.new(:large, large_asteroid_image, @bounding_sphere_radius[:large])
@@ -129,7 +134,7 @@ class AsteroidManager
     asteroid.bounding_sphere_radius = @bounding_sphere_radius[size]
     asteroid.object_image = @asteroid_images[size]
     asteroid.angle = rand(360)
-    asteroid.set_forward_velocity(AsteroidForwardVelocity)
+    asteroid.set_forward_velocity(@asteroid_velocities[size])
 
     # Do we want to spawn on the side, or on the top?
     spawn_horizontal = get_random_boolean

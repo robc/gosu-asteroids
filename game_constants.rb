@@ -2,7 +2,7 @@ module GameConstants
   ScreenWidth  = 1024
   ScreenHeight = 768
   BoundsBufferSize = 50
-  BulletFireDelay = 40
+  BulletFireDelay = 20
 
   LargeAsteroidBoundingSphereRadius = 56
   MediumAsteroidBoundingSphereRadius = 28
@@ -17,20 +17,23 @@ module GameConstants
   HyperspaceTime = 120
 
   BulletLifeCycle = 240
-  BulletVelocity = 300
-  NumberOfBullets = 3
+  BulletVelocity = 400
+  NumberOfBullets = 6
 
-  PlayerRespawnTime = 60
-  NewWaveDelay = 90
+  PlayerRespawnTime = 180
+  NewWaveDelay = 120
   
   MinAsteroidsToSpawn = 4
   MaxAsteroidsInPool = 50
-  AsteroidForwardVelocity = 30
-  AsteroidScore = 500
+  AsteroidScore = 75
   
-  SmallAsteroidForwardVelocity = 40
-  MediumAsteroidForwardVelocity = 25
   LargeAsteroidForwardVelocity = 10
+  MediumAsteroidForwardVelocity = 30
+  SmallAsteroidForwardVelocity = 50
+  
+  LargeAsteroidScore = 20
+  MediumAsteroidScore = 50
+  SmallAsteroidScore = 100
   
   AsteroidRotationSpeed = 0.25
 end
