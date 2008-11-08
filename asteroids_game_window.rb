@@ -5,6 +5,7 @@ require 'game_constants'
 require 'bounds'
 require 'bullet_manager'
 require 'asteroid_manager'
+require 'game_controller'
 
 module ZOrder
   Background, Asteroids, Player, UI = *0..3
@@ -42,6 +43,19 @@ class AsteroidsGameWindow < Gosu::Window
     @next_bullet_delay = 0
     
     @game_over_flag = true
+    
+    @game_controller = GameController.new(self)
+    @game_controller.key_turn_left = Gosu::KbLeft
+    @game_controller.key_turn_right = Gosu::KbRight
+    @game_controller.key_thrust_forward = Gosu::KbUp
+    @game_controller.key_fire_weapon = Gosu::KbSpace
+    @game_controller.key_hyperspace = Gosu::KbLeftShift
+    
+    @game_controller.gamepad_turn_left = Gosu::GpLeft
+    @game_controller.gamepad_turn_right = Gosu::GpRight
+    @game_controller.gamepad_thrust_forward = Gosu::GpUp
+    @game_controller.gamepad_fire_weapon = Gosu::GpButton0
+    @game_controller.gamepad_hyperspace = Gosu::GpButton1
   end
 
   def update
@@ -88,7 +102,7 @@ class AsteroidsGameWindow < Gosu::Window
   end
 
   def update_title_screen
-    if button_down? Gosu::Button::KbSpace or button_down? Gosu::Button::GpButton0 then
+    if @game_controller.fire_weapon_down?
       @lives = PlayerLives
       @score = 0
       @player.prepare_player
@@ -99,23 +113,16 @@ class AsteroidsGameWindow < Gosu::Window
   end
   
   def read_player_input
-    if button_down? Gosu::Button::KbLeft or button_down? Gosu::Button::GpLeft then
+    if @game_controller.turn_left_down?
       @player.turn_left
-    elsif button_down? Gosu::Button::KbRight or button_down? Gosu::Button::GpRight then
+    elsif @game_controller.turn_right_down?
       @player.turn_right
     end
 
-    if button_down? Gosu::Button::KbUp or button_down? Gosu::Button::GpButton0 then
-      @player.fire_thrust
-    else
-      @player.slow_down
-    end
-
-    if button_down? Gosu::Button::KbLeftShift or button_down? Gosu::Button::GpButton1 then
-      @player.hyperspace
-    end
+    @game_controller.thrust_forward_down? ? @player.fire_thrust : @player.slow_down
+    @player.hyperspace if @game_controller.hyperspace_down?
     
-    if (button_down? Gosu::Button::KbSpace or button_down? Gosu::Button::GpButton2) and @next_bullet_delay == 0 and !@player.in_hyperspace then
+    if @game_controller.fire_weapon_down? and @next_bullet_delay == 0 and !@player.in_hyperspace then
       @bullet_manager.fire_bullet(@player.location_x, @player.location_y, @player.velocity_x, @player.velocity_y, @player.angle)
       @next_bullet_delay = BulletFireDelay
     end
