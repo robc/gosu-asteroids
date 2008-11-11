@@ -5,7 +5,7 @@ require 'game_constants'
 require 'bounds'
 require 'bullet_manager'
 require 'asteroid_manager'
-require 'game_controller'
+require 'lib/game_controller'
 
 module ZOrder
   Background, Asteroids, Player, UI = *0..3
