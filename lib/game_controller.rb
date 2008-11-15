@@ -5,6 +5,7 @@ class GameController
     @action_gamepad_bindings = Hash.new
   end
   
+  # TODO: Use some regex funkiness here - might be able to simplify a bit
   def method_missing(symbol, *args, &block)
     symbol_call_to_test = symbol.to_s
     if symbol_call_to_test =~ /^key_/
