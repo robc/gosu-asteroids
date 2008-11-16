@@ -20,6 +20,6 @@ class TitleScreen
   
   def draw
     @asset_manager.background_image.draw(0, 0, ZOrder::Background)
-    @asset_manager.title_font.draw("Press Space to Play", 300, 500, ZOrder::UI, 1, 1, 0xffffffff)
+    @asset_manager.title_font.draw("Press Space to Play", 225, 300, ZOrder::UI, 1, 1, 0xffffffff)
   end
 end
