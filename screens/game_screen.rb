@@ -95,7 +95,7 @@ class GameScreen
     if collision then
       @player.kill_player
       @lives = @lives - 1
-      @game_window.active_screen = TitleScreen.new(@game_window, @game_controller, @background_image, @font, @width, @height) if @lives < 0
+      @game_window.active_screen = TitleScreen.new(@game_window, @game_controller, @asset_manager, @width, @height) if @lives < 0
     end
   end
 end
