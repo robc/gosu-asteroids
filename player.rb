@@ -45,8 +45,8 @@ class Player < GameObject
   end
   
   def slow_down
-    # @acceleration *= 0.2 if @acceleration > 0
-    # update_forward_velocity
+    @velocity_x *= DeaccelerationRate
+    @velocity_y *= DeaccelerationRate
   end
   
   def update_forward_velocity
@@ -60,7 +60,6 @@ class Player < GameObject
     @velocity_y += vertical_thrust
 
     @combined_velocity_vector = (@velocity_x * @velocity_x) + (@velocity_y * @velocity_y)
-    puts "@cvv: #{@combined_velocity_vector}"
     clamp_velocity(MaxForwardVelocity, @combined_velocity_vector) if @combined_velocity_vector > MaxForwardVelocity
   end
   
