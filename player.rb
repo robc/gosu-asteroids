@@ -30,17 +30,23 @@ class Player < GameObject
   def turn_left
     @angle -= (PlayerRotationVelocity * FrameTime)
     @angle = Conversions.limit_angle(@angle)
-    # NB: Should reset acceleration if we turn, as the momentum would be lost!
   end
 
   def turn_right
     @angle += (PlayerRotationVelocity * FrameTime)
     @angle = Conversions.limit_angle(@angle)
-    # NB: Should reset acceleration if we turn, as the momentum would be lost!
   end
 
   def fire_thrust
+    # Sigh.  WTF?
     @acceleration = 1.0
+    
+    # if @acceleration == 0
+    #   @acceleration = 0.5
+    # else
+    #   @acceleration = @acceleration * 1.3
+    # end
+    
     update_forward_velocity
   end
   
@@ -52,8 +58,12 @@ class Player < GameObject
   def update_forward_velocity
     # Get the horizontal & vertical components of the current direction
     flight_heading = Conversions.transform_degrees_to_radians(@angle - 90)
-    horizontal_thrust = Math.cos(flight_heading) #* (MaxForwardThrust * @acceleration)
-    vertical_thrust = Math.sin(flight_heading) #* (MaxForwardThrust * @acceleration)
+    horizontal_thrust = Math.cos(flight_heading) * (MaxForwardThrust * @acceleration)
+    vertical_thrust = Math.sin(flight_heading) * (MaxForwardThrust * @acceleration)
+
+    # puts "Math.cos(flight_heading) * (MaxForwardThrust * @acceleration)"
+    # puts "#{Math.cos(flight_heading)} * (#{MaxForwardThrust} * #{@acceleration})"
+    # puts "#{Math.cos(flight_heading) * (MaxForwardThrust * @acceleration)}"
 
     # Updates the velocity using the additional thrust components
     @velocity_x += horizontal_thrust
