@@ -20,7 +20,7 @@ class AsteroidsGameWindow < Gosu::Window
   
   def initialize
     super(ScreenWidth, ScreenHeight, false)
-    self.caption = "Asteroids Game"
+    self.caption = "Asteroids"
 
     @asset_manager = AssetManager.new
     @asset_manager.background_image = Gosu::Image.new(self, "media/IngameBackground.png", true)
