@@ -24,7 +24,8 @@ class AsteroidsGameWindow < Gosu::Window
 
     @asset_manager = AssetManager.new
     @asset_manager.background_image = Gosu::Image.new(self, "media/IngameBackground.png", true)
-    @asset_manager.font = Gosu::Font.new(self, Gosu::default_font_name, 20)
+    @asset_manager.font = Gosu::Font.new(self, Gosu::default_font_name, 24)
+    @asset_manager.title_font = Gosu::Font.new(self, Gosu::default_font_name, 72)
     @asset_manager.player_image = Gosu::Image.new(self, "media/Spaceship.png", true)
     @asset_manager.bullet_image = Gosu::Image.new(self, "media/Bullet.png", true)
     @asset_manager.large_asteroid_image = Gosu::Image.new(self, "media/AsteroidLarge.png", true)
