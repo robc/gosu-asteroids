@@ -14,9 +14,11 @@ module GameConstants
   BulletBoundingSphereRadius = 6
 
   PlayerLives = 3
-  MaxForwardVelocity = 40
+  MaxForwardVelocity = 121.0
+  MaxForwardThrust = 5.0
   DeaccelerationRate = 0.97
   HyperspaceTime = 120
+  PlayerRotationVelocity = 180.0
 
   BulletLifeCycle = 240
   BulletVelocity = 400

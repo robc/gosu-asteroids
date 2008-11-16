@@ -11,7 +11,6 @@ class Player < GameObject
   
   def initialize(player_image, bounding_sphere_radius)
     super(player_image, bounding_sphere_radius)
-    
     prepare_player
   end
 
@@ -19,6 +18,7 @@ class Player < GameObject
    @in_hyperspace = false
    @dead = false
    @respawn_time = 0
+   @acceleration = 0
    
    set_location_velocity_angle_defaults
   end
@@ -28,32 +28,40 @@ class Player < GameObject
   end
 
   def turn_left
-    @angle -= 2.0
+    @angle -= (PlayerRotationVelocity * FrameTime)
     @angle = Conversions.limit_angle(@angle)
+    # NB: Should reset acceleration if we turn, as the momentum would be lost!
   end
 
   def turn_right
-    @angle += 2.0
+    @angle += (PlayerRotationVelocity * FrameTime)
     @angle = Conversions.limit_angle(@angle)
+    # NB: Should reset acceleration if we turn, as the momentum would be lost!
   end
 
   def fire_thrust
-    # Transforms the current angle into a radian based angle using the heading with 90 degrees added.
-    # This is due to the unit circle being oriented to point at the 90 degree point (meaning our angles are 90 degrees off)
+    @acceleration = 1.0
+    update_forward_velocity
+  end
+  
+  def slow_down
+    # @acceleration *= 0.2 if @acceleration > 0
+    # update_forward_velocity
+  end
+  
+  def update_forward_velocity
+    # Get the horizontal & vertical components of the current direction
     flight_heading = Conversions.transform_degrees_to_radians(@angle - 90)
+    horizontal_thrust = Math.cos(flight_heading) #* (MaxForwardThrust * @acceleration)
+    vertical_thrust = Math.sin(flight_heading) #* (MaxForwardThrust * @acceleration)
 
-    # Grabs the sin & cos of the transformed heading and adds it to the velocity
-    horizontal_thrust = Math.cos(flight_heading)
-    vertical_thrust = Math.sin(flight_heading)
-    
-    # Updates the total thrust with the new components
+    # Updates the velocity using the additional thrust components
     @velocity_x += horizontal_thrust
     @velocity_y += vertical_thrust
-    
-    # Checks to see if we're moving too fast (overall), and if so
-    # clamps down the thrust to keep it within the limits
-    overall_velocity = (@velocity_x * @velocity_x) + (@velocity_y * @velocity_y)
-    clamp_velocity(10, overall_velocity) if overall_velocity > MaxForwardVelocity
+
+    @combined_velocity_vector = (@velocity_x * @velocity_x) + (@velocity_y * @velocity_y)
+    puts "@cvv: #{@combined_velocity_vector}"
+    clamp_velocity(MaxForwardVelocity, @combined_velocity_vector) if @combined_velocity_vector > MaxForwardVelocity
   end
   
   def hyperspace
@@ -75,11 +83,6 @@ class Player < GameObject
     @dead = true
     @respawn_time = PlayerRespawnTime
     set_location_velocity_angle_defaults
-  end
-  
-  def slow_down
-    @velocity_x = @velocity_x * DeaccelerationRate
-    @velocity_y = @velocity_y * DeaccelerationRate
   end
   
   def update
