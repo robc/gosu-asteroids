@@ -32,6 +32,8 @@ class GameScreen
     @score = 0
     @lives = 3
     @next_bullet_delay = 0
+
+    @asteroid_manager.start_new_wave
   end
   
   def update
