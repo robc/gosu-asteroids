@@ -19,8 +19,7 @@ class TitleScreen
   end
   
   def draw
-    # Would love to do some complex shit here - make it nice and funky :)
-    @asset_manager.background_image.draw(0, 0, 0) # Need to reuse the enum type defined in asteroids_game_window    
-    @asset_manager.font.draw("Press Space to Play", 300, 500, 3, 1, 1, 0xffffffff)
+    @asset_manager.background_image.draw(0, 0, ZOrder::Background)
+    @asset_manager.font.draw("Press Space to Play", 300, 500, ZOrder::UI, 1, 1, 0xffffffff)
   end
 end

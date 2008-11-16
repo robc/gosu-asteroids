@@ -1,5 +1,3 @@
-# require 'rubygems'
-# require 'gosu'
 require 'screens/title_screen'
 require 'game_constants'
 require 'bounds'
