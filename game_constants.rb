@@ -1,4 +1,6 @@
 module GameConstants
+  FrameTime = 1.0 / 60.0
+
   ScreenWidth  = 1024
   ScreenHeight = 768
   BoundsBufferSize = 50
