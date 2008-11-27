@@ -69,11 +69,11 @@ class GameScreen
     @game_controller.thrust_forward_down? ? @player.fire_thrust : @player.slow_down
     @player.hyperspace if @game_controller.hyperspace_down?
     
-    if @game_controller.fire_weapon_down? and @next_bullet_delay == 0 and !@player.in_hyperspace then
+    if @game_controller.fire_weapon_down? and @next_bullet_delay <= 0 and !@player.in_hyperspace then
       @bullet_manager.fire_bullet(@player.location_x, @player.location_y, @player.velocity_x, @player.velocity_y, @player.angle)
       @next_bullet_delay = BulletFireDelay
     end
-    @next_bullet_delay -= 1 if @next_bullet_delay > 0
+    @next_bullet_delay -= 1
   end
 
   def test_bullet_asteroid_collision(bullet)
